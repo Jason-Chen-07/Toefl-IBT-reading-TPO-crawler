@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intelligent News Browser</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Real-time news comparison</p>
+          <h1>Pull live coverage, then compare the story from multiple angles.</h1>
+          <p class="hero-text">
+            This prototype fetches real RSS articles, filters them by topic, and
+            compares the coverage using either a heuristic pipeline or OpenAI.
+          </p>
+          <form class="search-panel panel" id="search-form">
+            <label class="field">
+              <span>Topic or keyword</span>
+              <input
+                id="query-input"
+                name="q"
+                type="text"
+                value="semiconductor"
+                placeholder="Try: tariffs, AI chips, election, Fed"
+              />
+            </label>
+            <label class="field">
+              <span>Analysis mode</span>
+              <select id="mode-select" name="mode">
+                <option value="auto">Auto (OpenAI if configured)</option>
+                <option value="heuristic">Heuristic only</option>
+                <option value="openai">OpenAI only</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Days back</span>
+              <input id="days-input" name="days" type="number" min="1" max="30" value="3" />
+            </label>
+            <button class="primary-button" type="submit">Analyze Coverage</button>
+          </form>
+          <div class="topic-row">
+            <button class="topic-chip" data-topic="semiconductor">semiconductor</button>
+            <button class="topic-chip" data-topic="AI regulation">AI regulation</button>
+            <button class="topic-chip" data-topic="tariffs">tariffs</button>
+            <button class="topic-chip" data-topic="Ukraine">Ukraine</button>
+          </div>
+        </div>
+
+        <section class="snapshot panel">
+          <p class="section-kicker">Event Snapshot</p>
+          <h2 id="event-title">Loading coverage...</h2>
+          <p id="event-summary">Pulling RSS feeds and preparing a comparison.</p>
+          <div class="signal-grid">
+            <div>
+              <span>Mode used</span>
+              <strong id="mode-used">Starting</strong>
+            </div>
+            <div>
+              <span>Coverage Window</span>
+              <strong id="coverage-window">Waiting</strong>
+            </div>
+          </div>
+          <div class="hero-stats" id="hero-stats"></div>
+          <div class="status-box" id="status-box"></div>
+        </section>
+      </header>
+
+      <main class="content-grid">
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Consensus</p>
+              <h2>What multiple sources support</h2>
+            </div>
+          </div>
+          <div class="legend">
+            <span class="pill consensus">Consensus</span>
+            <span class="pill conflict">Conflict</span>
+            <span class="pill unique">Unique angle</span>
+            <span class="pill meta">Meta info</span>
+          </div>
+          <ul class="bullet-list" id="consensus-list"></ul>
+        </section>
+
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Conflict Watch</p>
+              <h2>Uncertainty and disagreement</h2>
+            </div>
+          </div>
+          <ul class="conflict-list" id="conflict-list"></ul>
+        </section>
+
+        <section class="panel panel-wide">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Consolidated Brief</p>
+              <h2>Single-pass summary with color-coded certainty</h2>
+            </div>
+          </div>
+          <div class="legend">
+            <span class="pill consensus">Consensus</span>
+            <span class="pill conflict">Conflict</span>
+            <span class="pill unique">Unique/angle</span>
+            <span class="pill meta">Meta</span>
+          </div>
+          <div class="brief-list" id="brief-list"></div>
+        </section>
+
+        <section class="panel panel-wide">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Live Sources</p>
+              <h2>Articles included in the comparison</h2>
+            </div>
+          </div>
+          <div class="source-grid" id="source-grid"></div>
+        </section>
+
+        <section class="panel panel-wide">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Timeline</p>
+              <h2>How the retrieved coverage lines up</h2>
+            </div>
+          </div>
+          <div class="timeline" id="timeline"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
